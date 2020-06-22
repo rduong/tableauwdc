@@ -97,10 +97,19 @@ var fieldSchema ={
 
 function getAgency(){
   var url = 'https://itdashboard.gov/api/v1/ITDB2/dataFeeds/agency';
-  var requestResponse = $.getJSON(url, data funciton(data) );
-  
-  if (requestResponse.getResponseCode() === 200) {
-    agency_array = JSON.parse(requestResponse.getContentText()).result;
-  }
+  $.ajax({
+      dataType: "json",
+      url : url,
+    data: {},
+    success: function(data) {
+      recs =[]  
+      var result = data['result']
+        
+      for ( var i=0; i< result.length; i++){
+           recs.push({ id : result.agencyCode, name: result[i].agencyName })
+      }
+      return recs;
+    }
+  });
   return agency_array;
 }
